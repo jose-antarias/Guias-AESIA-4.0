@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, BookOpen, Layers } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { RiskTrafficLight } from "./RiskTrafficLight";
 import { RiskClassifier } from "./RiskClassifier";
 import { HighRiskExplorer } from "./HighRiskExplorer";
@@ -51,6 +52,33 @@ const WidgetMap: Record<string, React.FC<any>> = {
     'MaturityScale': MaturityScale,
 };
 
+// Convierte a sentence case en español: solo mayúscula la primera palabra real,
+// preservando siglas (ALL_CAPS) y capitalizando tras numeración de sección.
+function toSpanishSentenceCase(text: string): string {
+    if (!text) return text;
+    return text
+        .split(' ')
+        .map((word, i, arr) => {
+            const clean = word.replace(/[.,;:()[\]]/g, '');
+            // Sigla: palabra ALL_CAPS con letras (IA, RGPD, AESIA, GPAI, AEPD…) → preservar
+            if (clean.length >= 1 && /^[A-ZÁÉÍÓÚÑ0-9]+$/.test(clean) && /[A-ZÁÉÍÓÚÑ]/.test(clean)) {
+                return word;
+            }
+            // Primera palabra siempre capitalizada
+            if (i === 0) {
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }
+            const prev = arr[i - 1];
+            // Si la palabra anterior termina en punto ("1.", "I.") o es decimal ("2.1") → capitalizar
+            if (prev.endsWith('.') || /^\d+(\.\d+)*$/.test(prev)) {
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }
+            // Resto → minúscula
+            return word.toLowerCase();
+        })
+        .join(' ');
+}
+
 export function GuideContent({ content }: GuideContentProps) {
     const [openSectionIndex, setOpenSectionIndex] = useState<number | null>(null);
 
@@ -64,7 +92,7 @@ export function GuideContent({ content }: GuideContentProps) {
         <div className="space-y-4 w-full max-w-4xl mx-auto mt-8">
             <div className="flex items-center space-x-2 mb-6">
                 <Layers className="w-5 h-5 text-indigo-400" />
-                <h2 className="text-xl font-bold text-white">Índice de Contenidos</h2>
+                <h2 className="text-xl font-bold text-white">Índice de contenidos</h2>
             </div>
 
             <div className="grid gap-3">
@@ -90,7 +118,7 @@ export function GuideContent({ content }: GuideContentProps) {
                                     "font-medium transition-colors",
                                     openSectionIndex === index ? "text-white" : "text-slate-300 group-hover:text-white"
                                 )}>
-                                    {section.title}
+                                    {toSpanishSentenceCase(section.title)}
                                 </span>
                             </div>
                             {openSectionIndex === index ? (
@@ -108,10 +136,79 @@ export function GuideContent({ content }: GuideContentProps) {
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.3, ease: "easeInOut" }}
                                 >
-                                    <div className="bg-slate-900/50 border-t border-slate-800/60">
-                                        <div className="px-6 py-8 md:px-12 md:py-12 lg:px-16 lg:py-16">
-                                            <div className="prose prose-invert prose-slate prose-sm md:prose-base max-w-3xl mx-auto text-slate-300 leading-relaxed font-light tracking-wide">
-                                                <ReactMarkdown>
+                                    <div className="bg-slate-800/60 border-t border-slate-700/40">
+                                        <div className="px-5 py-6 md:px-8 md:py-8">
+                                            <div className="max-w-3xl mx-auto space-y-1">
+                                                <ReactMarkdown
+                                                    remarkPlugins={[remarkGfm]}
+                                                    components={{
+                                                        // Párrafos con espaciado generoso
+                                                        p: ({ children }) => (
+                                                            <p className="text-[0.97rem] leading-[1.85] text-slate-300 font-light tracking-wide mb-4 last:mb-0">{children}</p>
+                                                        ),
+                                                        // Headings diferenciados
+                                                        h2: ({ children }) => (
+                                                            <h2 className="text-indigo-300 text-lg font-bold mt-7 mb-3 pb-1 border-b border-indigo-500/20">{toSpanishSentenceCase(String(children))}</h2>
+                                                        ),
+                                                        h3: ({ children }) => (
+                                                            <h3 className="text-slate-200 text-base font-semibold mt-5 mb-2">{toSpanishSentenceCase(String(children))}</h3>
+                                                        ),
+                                                        h4: ({ children }) => (
+                                                            <h4 className="text-slate-300 text-sm font-semibold uppercase tracking-wider mt-4 mb-2 text-indigo-400/80">{toSpanishSentenceCase(String(children))}</h4>
+                                                        ),
+                                                        // Blockquote estilizado
+                                                        blockquote: ({ children }) => (
+                                                            <blockquote className="border-l-4 border-indigo-500/60 bg-indigo-950/30 pl-4 pr-3 py-3 my-4 rounded-r-lg text-slate-300 italic text-sm leading-relaxed">
+                                                                {children}
+                                                            </blockquote>
+                                                        ),
+                                                        // Listas con puntos personalizados
+                                                        ul: ({ children }) => (
+                                                            <ul className="space-y-2 my-3 pl-1">{children}</ul>
+                                                        ),
+                                                        ol: ({ children }) => (
+                                                            <ol className="space-y-2 my-3 pl-1 list-decimal list-inside">{children}</ol>
+                                                        ),
+                                                        li: ({ children }) => (
+                                                            <li className="flex items-start gap-2 text-[0.95rem] text-slate-300 leading-relaxed">
+                                                                <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-indigo-400/70 flex-shrink-0" />
+                                                                <span>{children}</span>
+                                                            </li>
+                                                        ),
+                                                        // Texto en negrita y cursiva
+                                                        strong: ({ children }) => (
+                                                            <strong className="text-indigo-200 font-medium">{children}</strong>
+                                                        ),
+                                                        em: ({ children }) => (
+                                                            <em className="text-indigo-300/90 not-italic font-medium">{children}</em>
+                                                        ),
+                                                        // Código inline
+                                                        code: ({ children }) => (
+                                                            <code className="bg-slate-700/60 text-emerald-300 text-xs px-1.5 py-0.5 rounded font-mono">{children}</code>
+                                                        ),
+                                                        // Tablas GFM elegantes
+                                                        table: ({ children }) => (
+                                                            <div className="w-full overflow-x-auto my-6 rounded-xl border border-slate-700/60 shadow-lg">
+                                                                <table className="w-full text-sm">{children}</table>
+                                                            </div>
+                                                        ),
+                                                        thead: ({ children }) => (
+                                                            <thead className="bg-indigo-950/80 border-b border-indigo-500/30">{children}</thead>
+                                                        ),
+                                                        th: ({ children }) => (
+                                                            <th className="px-4 py-3 text-left text-xs font-semibold text-indigo-300 uppercase tracking-wider whitespace-nowrap">{children}</th>
+                                                        ),
+                                                        tbody: ({ children }) => (
+                                                            <tbody className="divide-y divide-slate-700/40">{children}</tbody>
+                                                        ),
+                                                        tr: ({ children }) => (
+                                                            <tr className="hover:bg-indigo-500/5 transition-colors">{children}</tr>
+                                                        ),
+                                                        td: ({ children }) => (
+                                                            <td className="px-4 py-3 text-slate-300 text-sm leading-snug align-top">{children}</td>
+                                                        ),
+                                                    }}
+                                                >
                                                     {section.content}
                                                 </ReactMarkdown>
 
