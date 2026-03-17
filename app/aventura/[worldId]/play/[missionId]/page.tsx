@@ -74,25 +74,25 @@ function GameEngine({ guide, world, missionId }: { guide: Guide, world: any, mis
     };
 
     return (
-        <div className="min-h-screen bg-slate-950 text-emerald-50 font-mono overflow-hidden flex flex-col relative">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-emerald-50 font-mono overflow-hidden flex flex-col relative transition-colors">
             {/* HUD */}
-            <div className="fixed top-0 left-0 right-0 z-50 bg-slate-900/90 border-b border-indigo-500/30 backdrop-blur-md p-4 flex justify-between items-center shadow-[0_0_20px_rgba(0,0,0,0.5)]">
+            <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 border-b border-indigo-200 dark:border-indigo-500/30 backdrop-blur-md p-4 flex justify-between items-center shadow-sm dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors">
                 <div className="flex items-center gap-4">
-                    <Link href={`/aventura/${world.id}`} className="text-slate-400 hover:text-white transition-colors">
+                    <Link href={`/aventura/${world.id}`} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
                     <div className="flex flex-col">
-                        <span className="text-xs text-indigo-400 uppercase tracking-widest font-bold">Misión activa</span>
-                        <span className="text-sm font-bold text-white max-w-[150px] md:max-w-xs truncate">{guide.title}</span>
+                        <span className="text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest font-bold">Misión activa</span>
+                        <span className="text-sm font-bold text-slate-800 dark:text-white max-w-[150px] md:max-w-xs truncate transition-colors">{guide.title}</span>
                     </div>
                 </div>
 
                 <div className="flex items-center gap-6">
                     <div className="flex flex-col items-end">
-                        <span className="text-xs text-emerald-400 font-bold mb-1 flex items-center gap-1">
+                        <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold mb-1 flex items-center gap-1">
                             <Shield className="w-3 h-3" /> INTEGRIDAD DEL SISTEMA
                         </span>
-                        <div className="w-32 h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                        <div className="w-32 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-300 dark:border-slate-700 transition-colors">
                             <div
                                 className={cn("h-full transition-all duration-500", health > 50 ? "bg-emerald-500 shadow-[0_0_8px_#10b981]" : "bg-red-500 shadow-[0_0_8px_#ef4444]")}
                                 style={{ width: `${health}%` }}
@@ -100,7 +100,7 @@ function GameEngine({ guide, world, missionId }: { guide: Guide, world: any, mis
                         </div>
                     </div>
                     <div className="hidden md:flex flex-col items-end">
-                        <span className="text-xs text-indigo-400 font-bold mb-1 flex items-center gap-1">
+                        <span className="text-xs text-indigo-600 dark:text-indigo-400 font-bold mb-1 flex items-center gap-1">
                             <Zap className="w-3 h-3" /> PROGRESO
                         </span>
                         <Progress value={progress} className="w-32 h-2" />
@@ -148,19 +148,19 @@ function IntroScreen({ guide, onStart }: { guide: Guide, onStart: () => void }) 
             exit={{ opacity: 0, x: -50 }}
             className="flex flex-col items-center text-center space-y-8"
         >
-            <div className="w-24 h-24 rounded-full bg-indigo-500/10 border-2 border-indigo-500 flex items-center justify-center shadow-[0_0_30px_rgba(99,102,241,0.3)] animate-pulse">
-                <Target className="w-10 h-10 text-indigo-400" />
+            <div className="w-24 h-24 rounded-full bg-indigo-100 dark:bg-indigo-500/10 border-2 border-indigo-400 dark:border-indigo-500 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.2)] dark:shadow-[0_0_30px_rgba(99,102,241,0.3)] animate-pulse transition-colors">
+                <Target className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
             </div>
 
             <div className="space-y-4 max-w-2xl">
-                <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-indigo-300 to-white tracking-tighter uppercase">
+                <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-indigo-600 to-indigo-900 dark:from-indigo-300 dark:to-white tracking-tighter uppercase transition-colors">
                     Misión iniciada
                 </h1>
-                <p className="text-xl text-indigo-200">
+                <p className="text-xl text-indigo-700 dark:text-indigo-200 transition-colors">
                     Objetivo: Asimilar la normativa del sector {guide.id}
                 </p>
-                <div className="bg-slate-900/80 border border-indigo-500/30 p-6 rounded-lg text-left font-mono text-sm text-indigo-100 shadow-inner">
-                    <p className="mb-2 text-indigo-400">$ SYSTEM_MSG: INCOMING_BRIEFING</p>
+                <div className="bg-indigo-50 dark:bg-slate-900/80 border border-indigo-200 dark:border-indigo-500/30 p-6 rounded-lg text-left font-mono text-sm text-indigo-900 dark:text-indigo-100 shadow-inner transition-colors">
+                    <p className="mb-2 text-indigo-600 dark:text-indigo-400">$ SYSTEM_MSG: INCOMING_BRIEFING</p>
                     <p>{guide.summary.substring(0, 200)}...</p>
                 </div>
             </div>
@@ -178,16 +178,16 @@ function IntelBlock({ guide, onComplete }: { guide: Guide, onComplete: () => voi
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="bg-slate-900/80 border border-slate-700/50 backdrop-blur-xl p-8 rounded-2xl shadow-2xl"
+            className="bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/50 backdrop-blur-xl p-8 rounded-2xl shadow-lg dark:shadow-2xl transition-colors"
         >
-            <div className="flex items-center gap-4 mb-6 border-b border-slate-700 pb-4">
-                <div className="bg-emerald-500/20 p-2 rounded-lg">
-                    <Shield className="w-6 h-6 text-emerald-400" />
+            <div className="flex items-center gap-4 mb-6 border-b border-slate-200 dark:border-slate-700 pb-4 transition-colors">
+                <div className="bg-emerald-100 dark:bg-emerald-500/20 p-2 rounded-lg">
+                    <Shield className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h2 className="text-2xl font-bold text-white uppercase">Datos de inteligencia</h2>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white uppercase transition-colors">Datos de inteligencia</h2>
             </div>
 
-            <div className="prose prose-invert prose-lg max-w-none text-slate-300 leading-relaxed">
+            <div className="prose dark:prose-invert prose-lg max-w-none text-slate-700 dark:text-slate-300 leading-relaxed transition-colors">
                 <p>{guide.summary}</p>
             </div>
 
@@ -219,16 +219,16 @@ function TrainingBlock({ guide, onComplete }: { guide: Guide, onComplete: () => 
             exit={{ opacity: 0, scale: 1.1 }}
             className="flex flex-col items-center"
         >
-            <h2 className="text-3xl font-bold text-amber-400 mb-8 uppercase tracking-widest flex items-center gap-3">
+            <h2 className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-8 uppercase tracking-widest flex items-center gap-3 transition-colors">
                 <Zap className="w-8 h-8" /> Entrenamiento táctico
             </h2>
 
             <div className="w-full max-w-md perspective-1000">
-                <div className="relative w-full h-80 bg-slate-800 rounded-xl border-2 border-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.2)] flex flex-col items-center justify-center p-8 text-center cursor-pointer group hover:border-amber-400 transition-all">
-                    <h3 className="text-xl font-bold text-white mb-4 uppercase text-amber-500">Concepto {index + 1}/{guide.flashcards.length}</h3>
-                    <p className="text-2xl font-bold text-white mb-4">{card.front}</p>
-                    <div className="w-full h-[1px] bg-slate-700 my-4" />
-                    <p className="text-lg text-slate-300 mt-2">{card.back}</p>
+                <div className="relative w-full h-80 bg-white dark:bg-slate-800 rounded-xl border-2 border-amber-300 dark:border-amber-500/50 shadow-[0_4px_20px_rgba(245,158,11,0.15)] dark:shadow-[0_0_30px_rgba(245,158,11,0.2)] flex flex-col items-center justify-center p-8 text-center cursor-pointer group hover:border-amber-500 dark:hover:border-amber-400 transition-all">
+                    <h3 className="text-xl font-bold mb-4 uppercase text-amber-600 dark:text-amber-500 transition-colors">Concepto {index + 1}/{guide.flashcards.length}</h3>
+                    <p className="text-2xl font-bold text-slate-900 dark:text-white mb-4 transition-colors">{card.front}</p>
+                    <div className="w-full h-[1px] bg-slate-200 dark:bg-slate-700 my-4 transition-colors" />
+                    <p className="text-lg text-slate-600 dark:text-slate-300 mt-2 transition-colors">{card.back}</p>
                 </div>
             </div>
 
@@ -283,33 +283,33 @@ function BossBlock({ guide, onComplete, onDamage }: { guide: Guide, onComplete: 
     return (
         <motion.div className="w-full max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-4 mb-10">
-                <Skull className="w-10 h-10 text-red-500 animate-pulse" />
-                <h2 className="text-4xl font-black text-red-500 uppercase tracking-tighter">
+                <Skull className="w-10 h-10 text-red-600 dark:text-red-500 animate-pulse transition-colors" />
+                <h2 className="text-4xl font-black text-red-600 dark:text-red-500 uppercase tracking-tighter transition-colors">
                     Jefe final: Evaluación
                 </h2>
             </div>
 
-            <div className="bg-slate-900 border-2 border-red-500/30 p-8 rounded-2xl shadow-[0_0_50px_rgba(239,68,68,0.15)] relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-red-500/50" />
+            <div className="bg-white dark:bg-slate-900 border-2 border-red-300 dark:border-red-500/30 p-8 rounded-2xl shadow-[0_8px_30px_rgba(239,68,68,0.1)] dark:shadow-[0_0_50px_rgba(239,68,68,0.15)] relative overflow-hidden transition-colors">
+                <div className="absolute top-0 left-0 w-full h-1 bg-red-400 dark:bg-red-500/50" />
 
-                <h3 className="text-2xl font-bold text-white mb-8 leading-relaxed">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8 leading-relaxed transition-colors">
                     {question.question}
                 </h3>
 
                 <div className="grid gap-4">
                     {question.options.map((opt, i) => {
-                        let buttonClass = "bg-slate-800 border-slate-700 hover:bg-slate-700";
-                        let Icon = <div className="w-4 h-4 rounded-full border border-slate-600" />;
+                        let buttonClass = "bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700";
+                        let Icon = <div className="w-4 h-4 rounded-full border border-slate-400 dark:border-slate-600" />;
 
                         if (selectedOption === i) {
                             if (feedbackStatus === "correct") {
-                                buttonClass = "bg-emerald-900/50 border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)]";
-                                Icon = <CheckCircle2 className="w-5 h-5 text-emerald-500" />;
+                                buttonClass = "bg-emerald-100 dark:bg-emerald-900/50 border-emerald-400 dark:border-emerald-500 shadow-sm dark:shadow-[0_0_15px_rgba(16,185,129,0.3)]";
+                                Icon = <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-500" />;
                             } else if (feedbackStatus === "incorrect") {
-                                buttonClass = "bg-red-900/50 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)]";
-                                Icon = <XCircle className="w-5 h-5 text-red-500" />;
+                                buttonClass = "bg-red-100 dark:bg-red-900/50 border-red-400 dark:border-red-500 shadow-sm dark:shadow-[0_0_15px_rgba(239,68,68,0.3)]";
+                                Icon = <XCircle className="w-5 h-5 text-red-600 dark:text-red-500" />;
                             } else {
-                                buttonClass = "bg-slate-700 border-indigo-400";
+                                buttonClass = "bg-slate-200 dark:bg-slate-700 border-indigo-400";
                             }
                         }
 
@@ -325,7 +325,7 @@ function BossBlock({ guide, onComplete, onDamage }: { guide: Guide, onComplete: 
                             >
                                 <span className={cn(
                                     "text-lg font-medium transition-colors",
-                                    selectedOption === i ? "text-white" : "text-slate-300 group-hover:text-white"
+                                    selectedOption === i ? "text-slate-900 dark:text-white" : "text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white"
                                 )}>{opt}</span>
                                 {Icon}
                             </button>
@@ -353,10 +353,10 @@ function VictoryScreen({ worldId }: { worldId: string }) {
                 <CheckCircle2 className="w-16 h-16 text-white" />
             </motion.div>
 
-            <h1 className="text-5xl font-black text-white mb-4 uppercase tracking-tighter">
+            <h1 className="text-5xl font-black text-slate-900 dark:text-white mb-4 uppercase tracking-tighter transition-colors">
                 ¡Misión cumplida!
             </h1>
-            <p className="text-xl text-emerald-300 mb-12">
+            <p className="text-xl text-emerald-700 dark:text-emerald-300 mb-12 transition-colors">
                 Has dominado los conceptos de este sector.
             </p>
 
@@ -380,10 +380,10 @@ function DefeatScreen({ onRetry }: { onRetry: () => void }) {
                 <AlertTriangle className="w-16 h-16 text-white" />
             </motion.div>
 
-            <h1 className="text-5xl font-black text-red-500 mb-4 uppercase tracking-tighter">
+            <h1 className="text-5xl font-black text-red-600 dark:text-red-500 mb-4 uppercase tracking-tighter transition-colors">
                 Fallo del sistema
             </h1>
-            <p className="text-xl text-red-300 mb-12">
+            <p className="text-xl text-red-700 dark:text-red-300 mb-12 transition-colors">
                 La integridad de tu conocimiento ha caído por debajo del umbral crítico.
             </p>
 

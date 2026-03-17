@@ -22,26 +22,26 @@ export default function WorldPage({ params }: { params: Promise<{ worldId: strin
     const missions = getMissionsForWorld(world.id);
 
     return (
-        <div className="min-h-screen bg-slate-950 text-white pt-24 pb-20 overflow-x-hidden">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white pt-24 pb-20 overflow-x-hidden transition-colors">
             {/* Dynamic Background */}
-            <div className={cn("fixed inset-0 bg-gradient-to-br opacity-20 pointer-events-none blur-3xl", world.color)} />
+            <div className={cn("fixed inset-0 bg-gradient-to-br opacity-10 dark:opacity-20 pointer-events-none blur-3xl", world.color)} />
 
             <div className="container mx-auto px-4 relative z-10 max-w-5xl">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-8">
-                    <Link href="/aventura" className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
-                        <ArrowLeft className="w-6 h-6 text-slate-300" />
+                    <Link href="/aventura" className="p-2 rounded-full bg-slate-200/50 dark:bg-white/5 hover:bg-slate-300/50 dark:hover:bg-white/10 transition-colors">
+                        <ArrowLeft className="w-6 h-6 text-slate-600 dark:text-slate-300" />
                     </Link>
-                    <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
                         <span className="text-4xl">{world.icon}</span>
                         {world.name}
                     </h1>
                 </div>
 
-                <p className="text-slate-400 text-lg mb-12 max-w-2xl leading-relaxed">
+                <p className="text-slate-600 dark:text-slate-400 text-lg mb-12 max-w-2xl leading-relaxed">
                     {world.description}
                     <br />
-                    <span className="text-sm uppercase tracking-widest text-indigo-400 mt-2 block">
+                    <span className="text-sm uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mt-2 block">
                         Sector {world.guideId} - Estado: Activo
                     </span>
                 </p>
@@ -75,19 +75,19 @@ function MissionCard({ mission, index, worldId, guideId }: { mission: Mission, i
                 className={cn(
                     "group flex items-center gap-6 p-6 rounded-xl border transition-all duration-300 relative overflow-hidden",
                     isLocked
-                        ? "bg-slate-900/50 border-slate-800 opacity-50 cursor-not-allowed"
-                        : "bg-slate-900/80 border-slate-700 hover:border-indigo-500 hover:bg-slate-800/80 hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+                        ? "bg-slate-100 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 opacity-50 cursor-not-allowed"
+                        : "bg-white dark:bg-slate-900/80 border-slate-200 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-indigo-500 hover:bg-slate-50 dark:hover:bg-slate-800/80 shadow-sm hover:shadow-[0_4px_20px_rgba(99,102,241,0.15)] dark:hover:shadow-[0_0_20px_rgba(99,102,241,0.15)]"
                 )}
             >
                 {/* Level Number */}
-                <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-slate-700 flex items-center justify-center font-mono text-xl font-bold text-slate-500 group-hover:text-white group-hover:border-indigo-500 transition-colors">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center font-mono text-xl font-bold text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-white group-hover:border-indigo-500 transition-colors">
                     {index + 1}
                 </div>
 
                 {/* Content */}
                 <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
-                        <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors">
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">
                             {mission.title}
                         </h3>
                         <span className={cn(
@@ -100,20 +100,20 @@ function MissionCard({ mission, index, worldId, guideId }: { mission: Mission, i
                             {mission.difficulty}
                         </span>
                     </div>
-                    <p className="text-sm text-slate-400 max-w-xl">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
                         {mission.description}
                     </p>
                 </div>
 
                 {/* Type Icon */}
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute right-6 md:static">
-                    <Icon className="w-6 h-6 text-indigo-400" />
+                    <Icon className="w-6 h-6 text-indigo-500 dark:text-indigo-400" />
                 </div>
 
                 {/* Action Button (Desktop) */}
-                <div className="hidden md:flex items-center pl-6 border-l border-slate-800">
-                    <span className="text-sm font-medium text-indigo-400 group-hover:text-indigo-300 mr-2">INICIAR</span>
-                    <Target className="w-4 h-4 text-indigo-400" />
+                <div className="hidden md:flex items-center pl-6 border-l border-slate-200 dark:border-slate-800">
+                    <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 mr-2">INICIAR</span>
+                    <Target className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
                 </div>
             </Link>
         </motion.div>

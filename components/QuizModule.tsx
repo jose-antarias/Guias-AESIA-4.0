@@ -67,7 +67,7 @@ export function QuizModule({ questions }: QuizModuleProps) {
 
         return (
             <div className="w-full max-w-2xl mx-auto">
-                <Card className="text-center p-8 bg-white dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border-transparent dark:border-indigo-500/20 relative overflow-hidden">
+                <Card className="text-center p-8 bg-white dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] border-slate-200 dark:border-indigo-500/20 relative overflow-hidden">
                     {passed && <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 shadow-[0_0_20px_#10b981]" />}
                     {!passed && <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 shadow-[0_0_20px_#ef4444]" />}
 
@@ -120,7 +120,7 @@ export function QuizModule({ questions }: QuizModuleProps) {
                 <span className="text-indigo-600 dark:text-indigo-400">{t.quiz.points}: {score}</span>
             </div>
 
-            <Card className="bg-white dark:bg-slate-900/80 backdrop-blur-xl border-transparent dark:border-slate-800 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-2xl">
+            <Card className="bg-white dark:bg-slate-900/80 backdrop-blur-xl border-slate-200 dark:border-slate-800 shadow-[0_4px_20px_rgb(0,0,0,0.05)] dark:shadow-2xl">
                 <CardHeader className="border-b border-slate-100 dark:border-slate-800 pb-6">
                     <CardTitle className="text-xl md:text-2xl leading-relaxed text-slate-900 dark:text-white font-medium">
                         {currentQuestion.question}
@@ -128,18 +128,18 @@ export function QuizModule({ questions }: QuizModuleProps) {
                 </CardHeader>
                 <CardContent className="space-y-4 pt-6">
                     {currentQuestion.options.map((option, index) => {
-                        let stateStyle = "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-indigo-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-800/50 dark:hover:bg-slate-800 dark:text-slate-300";
+                        let stateStyle = "border-slate-300 shadow-sm bg-white text-slate-700 hover:bg-slate-50 hover:border-indigo-400 hover:shadow-md dark:border-slate-700 dark:bg-slate-800/50 dark:hover:bg-slate-800 dark:text-slate-300";
 
                         if (isAnswered) {
                             if (index === currentQuestion.correctAnswer) {
-                                stateStyle = "border-emerald-300 bg-emerald-50 text-emerald-700 shadow-inner dark:border-emerald-500 dark:bg-emerald-950/30 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.2)]";
+                                stateStyle = "border-emerald-400 bg-emerald-50 text-emerald-800 shadow-inner dark:border-emerald-500 dark:bg-emerald-950/30 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.2)]";
                             } else if (index === selectedOption) {
-                                stateStyle = "border-red-300 bg-red-50 text-red-700 shadow-inner dark:border-red-500 dark:bg-red-950/30 dark:text-red-400";
+                                stateStyle = "border-red-400 bg-red-50 text-red-800 shadow-inner dark:border-red-500 dark:bg-red-950/30 dark:text-red-400";
                             } else {
-                                stateStyle = "opacity-40 border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-transparent text-slate-500";
+                                stateStyle = "opacity-50 border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-transparent text-slate-500";
                             }
                         } else if (selectedOption === index) {
-                            stateStyle = "border-indigo-400 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-500 shadow-inner dark:border-indigo-500 dark:bg-indigo-950/30 dark:text-indigo-300 dark:ring-1 dark:shadow-[0_0_15px_rgba(99,102,241,0.2)]";
+                            stateStyle = "border-indigo-500 bg-indigo-50 text-indigo-800 ring-2 ring-indigo-500 shadow-inner dark:border-indigo-500 dark:bg-indigo-950/30 dark:text-indigo-300 dark:ring-1 dark:shadow-[0_0_15px_rgba(99,102,241,0.2)]";
                         }
 
                         return (

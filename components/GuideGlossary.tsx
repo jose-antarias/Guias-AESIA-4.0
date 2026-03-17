@@ -106,11 +106,11 @@ export function GuideGlossary({ id }: { id: string }) {
                 <div className="space-y-12">
                     {filteredTerms.length === 0 ? (
                         <div className="text-center py-20">
-                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-900 mb-4">
-                                <Search className="w-8 h-8 text-slate-700" />
+                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-900 mb-4">
+                                <Search className="w-8 h-8 text-slate-400 dark:text-slate-700" />
                             </div>
-                            <h3 className="text-xl font-bold text-slate-300">{t.glossary.noResults}</h3>
-                            <p className="text-slate-500">Prueba con otra búsqueda.</p>
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-300">{t.glossary.noResults}</h3>
+                            <p className="text-slate-600 dark:text-slate-500">Prueba con otra búsqueda.</p>
                         </div>
                     ) : (
                         sortedLetters.map((letter) => (
