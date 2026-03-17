@@ -180,6 +180,7 @@ Juego de rol narrativo donde el jugador toma decisiones en escenarios hipotétic
 | 🔜 | Inglés | Pendiente de integrar la traducción oficial publicada por la AESIA |
 | 🔜 | Gallego, Euskera y Catalán | Traducción en progreso |
 | 🔧 | Modo claro (Light Mode) | La sección de gamificación muestra aún la versión en modo oscuro |
+| 🔧 | Rosco regulador | La aplicación no identifica bien las respuestas correcctas |
 | 🔧 | Gamificación en modo claro | Pendiente de completar el rediseño visual |
 | 🔧 | Zona Gamificación | Pendiente de completar y mejorar el funcionamiento de algunos desafíos |
 
