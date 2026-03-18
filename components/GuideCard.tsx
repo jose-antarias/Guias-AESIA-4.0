@@ -23,7 +23,7 @@ export function GuideCard({ guide, index }: GuideCardProps) {
             transition={{ duration: 0.3, delay: index * 0.05 }}
             className="h-full"
         >
-            <Card className="h-full flex flex-col overflow-hidden transition-all duration-500 group cursor-pointer
+            <Card className="h-full flex flex-col overflow-hidden transition-all duration-500 group
                 border border-transparent bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)]
                 hover:shadow-[0_20px_40px_-15px_rgba(67,56,202,0.15)] hover:-translate-y-1.5
                 dark:border-slate-800 dark:bg-slate-900/40 dark:backdrop-blur-md dark:shadow-none

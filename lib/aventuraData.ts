@@ -23,7 +23,7 @@ export interface Mission {
 export const worlds: World[] = [
     {
         id: "world-00",
-        guideId: "00",
+        guideId: "01",
         name: "El nexo",
         description: "El punto de partida de tu viaje. Comprende los fundamentos antes de adentrarte en la red.",
         icon: "🌌",
@@ -32,7 +32,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-01",
-        guideId: "01",
+        guideId: "02",
         name: "La frontera legal",
         description: "Cruza al territorio regulado. Identifica aliados y amenazas en el nuevo orden.",
         icon: "⚖️",
@@ -41,7 +41,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-02",
-        guideId: "02",
+        guideId: "03",
         name: "La arena de pruebas",
         description: "Entrena con simulaciones reales. Aquí la teoría se convierte en supervivencia.",
         icon: "🏟️",
@@ -50,7 +50,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-03",
-        guideId: "03",
+        guideId: "04",
         name: "El tribunal de conformidad",
         description: "Demuestra tu valía. Solo los sistemas dignos obtienen el sello de aprobación.",
         icon: "🏛️",
@@ -59,7 +59,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-04",
-        guideId: "04",
+        guideId: "05",
         name: "La torre de control",
         description: "Establece los protocolos. La calidad no es una opción, es tu defensa.",
         icon: "🗼",
@@ -68,7 +68,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-05",
-        guideId: "05",
+        guideId: "06",
         name: "Las tierras del riesgo",
         description: "Un terreno peligroso. Identifica amenazas y neutralízalas antes de que sea tarde.",
         icon: "🌋",
@@ -77,7 +77,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-06",
-        guideId: "06",
+        guideId: "07",
         name: "El ojo del guardián",
         description: "La máquina no decide sola. Mantén la vigilancia humana o pierde el control.",
         icon: "👁️",
@@ -86,7 +86,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-07",
-        guideId: "07",
+        guideId: "08",
         name: "El archivo de cristal",
         description: "Datos puros, decisiones justas. Limpia el flujo de información de impurezas.",
         icon: "💎",
@@ -95,7 +95,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-08",
-        guideId: "08",
+        guideId: "09",
         name: "El espejo de la verdad",
         description: "Nada se oculta. Haz que la caja negra sea transparente para todos.",
         icon: "🪞",
@@ -104,7 +104,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-09",
-        guideId: "09",
+        guideId: "10",
         name: "El blanco perfecto",
         description: "Afina tu puntería. La precisión es la diferencia entre el éxito y el error fatal.",
         icon: "🎯",
@@ -113,7 +113,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-10",
-        guideId: "10",
+        guideId: "11",
         name: "La fortaleza inquebrantable",
         description: "Resiste el caos. Construye sistemas que no caigan ante lo imprevisto.",
         icon: "🏰",
@@ -122,7 +122,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-11",
-        guideId: "11",
+        guideId: "12",
         name: "El cortafuegos sombrío",
         description: "Enemigos invisibles acechan. Protege el núcleo de ataques adversarios.",
         icon: "🛡️",
@@ -131,7 +131,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-12",
-        guideId: "12",
+        guideId: "13",
         name: "El registro eterno",
         description: "Todo queda grabado. La trazabilidad es tu mejor coartada.",
         icon: "📜",
@@ -140,7 +140,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-13",
-        guideId: "13",
+        guideId: "14",
         name: "El observatorio",
         description: "El lanzamiento es solo el inicio. Vigila el horizonte perpetuamente.",
         icon: "🔭",
@@ -149,7 +149,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-14",
-        guideId: "14",
+        guideId: "15",
         name: "La sala de crisis",
         description: "Alerta roja. Gestiona incidentes críticos antes de que colapse el sistema.",
         icon: "🚨",
@@ -158,7 +158,7 @@ export const worlds: World[] = [
     },
     {
         id: "world-15",
-        guideId: "15",
+        guideId: "16",
         name: "La biblioteca maestra",
         description: "El conocimiento es poder. Documenta cada engranaje de la máquina.",
         icon: "📚",

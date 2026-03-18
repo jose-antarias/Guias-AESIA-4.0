@@ -12,9 +12,11 @@ const ALPHABET = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
 // Helper to normalize strings for comparison (remove accents, lowercase)
 export function normalizeAnswer(answer: string): string {
     return (answer || "")
-        .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // Remove accents
+        .toLowerCase()
+        .replace(/[^a-z0-9 ]/g, "") // Remove any non-alphanumeric char
+        .replace(/\s+/g, " ") // Normalize multiple spaces into single space
         .trim();
 }
 
@@ -23,8 +25,7 @@ export function getRoscoGame(language: string = 'es'): RoscoQuestion[] {
     const guides = getGuides(language);
     const allTerms = guides.flatMap(g => g.glossary || []);
 
-    // 2. Remove exact duplicate terms to avoid confusion if same term appears in multiple guides
-    // Key by normalized term
+    // 2. Remove exact duplicate terms
     const uniqueTermsMap = new Map<string, GlossaryTerm>();
     allTerms.forEach(item => {
         const norm = normalizeAnswer(item.term);
@@ -33,12 +34,17 @@ export function getRoscoGame(language: string = 'es'): RoscoQuestion[] {
         }
     });
 
-    const uniqueTerms = Array.from(uniqueTermsMap.values());
+    const allUniqueTerms = Array.from(uniqueTermsMap.values());
+    
+    // 3. IMPORTANT: Filter to only single-word terms for the Rosco game philosophy
+    // The game is about guessing ONE word, not a phrase
+    const uniqueTerms = allUniqueTerms.filter(t => !t.term.trim().includes(" "));
+
     const rosco: RoscoQuestion[] = [];
     const alphabetArray = ALPHABET.split("");
 
     // Letters that are almost always "Contains" in Spanish game shows or hard to find
-    const forceContains = ["Ñ", "K", "W", "X"];
+    const forceContains = ["\u00d1", "K", "W", "X"];
 
     for (const letter of alphabetArray) {
         let type: "Empieza por" | "Contiene" = "Empieza por";
@@ -56,7 +62,7 @@ export function getRoscoGame(language: string = 'es'): RoscoQuestion[] {
                 normalizeAnswer(t.term).toUpperCase().startsWith(letter)
             );
 
-            // If no candidates starting with letter, fallback to "Contains"
+            // If no single-word starting with this letter, fallback to "Contains"
             if (candidates.length === 0) {
                 type = "Contiene";
                 candidates = uniqueTerms.filter(t =>
@@ -69,20 +75,14 @@ export function getRoscoGame(language: string = 'es'): RoscoQuestion[] {
             // Pick a random one
             const termObj = candidates[Math.floor(Math.random() * candidates.length)];
 
-            // Clean up definition if it starts with term name (sometimes happens in wikis)
-            // But here definitions are clean usually.
-
             rosco.push({
                 letter,
                 question: termObj.definition,
                 answer: termObj.term,
                 type: type === "Contiene" && !normalizeAnswer(termObj.term).toUpperCase().startsWith(letter) ? "Contiene" : "Empieza por"
             });
-        } else {
-            // If absolutely no word found for a letter (rare but possible with small dataset),
-            // We can either skip it or add a placeholder.
-            // Skipping is better for game integrity.
         }
+        // If no word found for a letter, skip it (better for game integrity)
     }
 
     return rosco;

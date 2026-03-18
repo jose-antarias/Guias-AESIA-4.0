@@ -13,33 +13,7 @@ export function ThemeToggle() {
             onClick={toggleTheme}
             aria-label={isDark ? "Activar modo claro" : "Activar modo oscuro"}
             title={isDark ? "Activar modo claro" : "Activar modo oscuro"}
-            style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                background: isDark ? "rgba(30,41,59,0.8)" : "rgba(255,255,255,0.8)",
-                border: isDark ? "1px solid rgba(71,85,105,0.6)" : "1px solid rgba(203,213,225,0.8)",
-                color: isDark ? "#94a3b8" : "#475569",
-                backdropFilter: "blur(8px)",
-                boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-            }}
-            onMouseEnter={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = isDark
-                    ? "rgba(51,65,85,0.9)"
-                    : "rgba(241,245,249,0.9)";
-                (e.currentTarget as HTMLButtonElement).style.color = isDark ? "#f1f5f9" : "#0f172a";
-            }}
-            onMouseLeave={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = isDark
-                    ? "rgba(30,41,59,0.8)"
-                    : "rgba(255,255,255,0.8)";
-                (e.currentTarget as HTMLButtonElement).style.color = isDark ? "#94a3b8" : "#475569";
-            }}
+            className="flex shrink-0 items-center justify-center w-9 h-9 rounded-full border backdrop-blur-xl shadow-sm transition-colors bg-white/90 dark:bg-slate-800/90 border-slate-200/80 dark:border-slate-700/60 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white"
         >
             <AnimatePresence mode="wait" initial={false}>
                 {isDark ? (
@@ -49,9 +23,9 @@ export function ThemeToggle() {
                         animate={{ opacity: 1, rotate: 0, scale: 1 }}
                         exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
                         transition={{ duration: 0.2 }}
-                        style={{ display: "flex" }}
+                        className="flex"
                     >
-                        <Sun style={{ width: "16px", height: "16px" }} />
+                        <Sun className="w-4 h-4" />
                     </motion.div>
                 ) : (
                     <motion.div
@@ -60,9 +34,9 @@ export function ThemeToggle() {
                         animate={{ opacity: 1, rotate: 0, scale: 1 }}
                         exit={{ opacity: 0, rotate: -90, scale: 0.5 }}
                         transition={{ duration: 0.2 }}
-                        style={{ display: "flex" }}
+                        className="flex"
                     >
-                        <Moon style={{ width: "16px", height: "16px" }} />
+                        <Moon className="w-4 h-4" />
                     </motion.div>
                 )}
             </AnimatePresence>

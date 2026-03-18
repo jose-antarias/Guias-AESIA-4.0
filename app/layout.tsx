@@ -9,8 +9,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Aula Virtual AESIA",
-  description: "Curso de formación sobre las Guías AESIA para la Regulación y Uso de la IA",
+  title: "Guías AESIA 4.0",
+  description: "Curso de formación interactiva sobre la Regulación y Uso de la IA",
 };
 
 import { Navbar } from "@/components/Navbar";

@@ -23,7 +23,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         },
         hero: {
             badge: "Diputación de Lugo",
-            title: "Guías AESIA",
+            title: "Guías AESIA 4.0",
             subtitle: "Regulación y uso de la IA",
             menciaLegend: "Plan de alfabetización MencIA: impulsa tu IA local",
             description: "Domina la normativa europea de Inteligencia Artificial con nuestra plataforma interactiva.",
@@ -117,7 +117,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         },
         hero: {
             badge: "Deputación de Lugo",
-            title: "Guías AESIA",
+            title: "Guías AESIA 4.0",
             subtitle: "Regulación e uso da IA",
             menciaLegend: "Plan de alfabetización MencIA: impulsa a túa IA local",
             description: "Domina a normativa europea de Intelixencia Artificial coa nosa plataforma interactiva.",
@@ -211,7 +211,7 @@ export const dictionaries: Record<Language, Dictionary> = {
         },
         hero: {
             badge: "Diputació de Lugo",
-            title: "Guies AESIA",
+            title: "Guies AESIA 4.0",
             subtitle: "Regulació i ús de la IA",
             menciaLegend: "Pla d'alfabetització MencIA: impulsa la teva IA local",
             description: "Domina la normativa europea d'Intel·ligència Artificial amb la nostra plataforma interactiva.",

@@ -34,7 +34,7 @@ export function LanguageSwitcher() {
         <div className="relative z-50" ref={containerRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/50 backdrop-blur-xl text-xs font-medium text-slate-300 hover:text-white transition-colors ring-1 ring-white/5 shadow-lg shadow-black/20"
+                className="flex items-center gap-1.5 px-3 h-9 rounded-full border backdrop-blur-xl shadow-sm transition-colors text-xs font-medium bg-white/90 dark:bg-slate-800/90 border-slate-200/80 dark:border-slate-700/60 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white"
             >
                 <Globe className="w-3.5 h-3.5" />
                 <span className="uppercase">{language}</span>
@@ -47,7 +47,7 @@ export function LanguageSwitcher() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="absolute top-full right-0 mt-2 w-32 rounded-xl bg-slate-900 border border-slate-800 shadow-xl overflow-hidden py-1"
+                        className="absolute top-full right-0 mt-2 w-32 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden py-1"
                     >
                         {languages.map((lang) => (
                             <button
@@ -57,8 +57,8 @@ export function LanguageSwitcher() {
                                     setIsOpen(false);
                                 }}
                                 className={cn(
-                                    "flex items-center justify-between w-full px-4 py-2 text-xs text-left transition-colors hover:bg-slate-800",
-                                    language === lang.code ? "text-indigo-400 font-medium" : "text-slate-400"
+                                    "flex items-center justify-between w-full px-4 py-2 text-xs text-left transition-colors hover:bg-slate-100 dark:hover:bg-slate-800",
+                                    language === lang.code ? "text-indigo-600 dark:text-indigo-400 font-medium" : "text-slate-600 dark:text-slate-400"
                                 )}
                             >
                                 {lang.label}
