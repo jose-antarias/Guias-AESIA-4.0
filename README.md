@@ -244,6 +244,14 @@ Este proyecto es de uso educativo y está orientado a la divulgación de las Gu�
 
 Las contribuciones son bienvenidas. Si deseas ampliar el contenido de alguna guía, añadir un nuevo idioma o mejorar algún módulo de juego, abre un *Issue* o envía un *Pull Request*.
 
+---
+
+## 📜 Licencia
+
+Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) incluido en el repositorio para más detalles.
+
+---
+
 ## 👨‍💻 Autor
 
 **Jose Antonio Arias Lombardero**
@@ -252,12 +260,6 @@ Las contribuciones son bienvenidas. Si deseas ampliar el contenido de alguna gu�
 Esta aplicación forma parte de un portfolio de soluciones tecnológicas conceptualizadas, desarrolladas y desplegadas en entornos cloud para su aplicación en el sector público. Mi objetivo es demostrar cómo el uso estratégico de modelos avanzados de IA (Vibe Coding) puede escalar radicalmente la digitalización, la operatividad y la alfabetización tecnológica de la Administración.
 
 🔗 [Consulta mi portfolio completo de aplicaciones y trayectoria profesional](https://ja-lombardero.vercel.app/)
-
----
-
-## 📜 Licencia
-
-Este proyecto está bajo la Licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) incluido en el repositorio para más detalles.
 
 ---
 
