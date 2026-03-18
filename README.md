@@ -32,8 +32,7 @@ La aplicación está diseñada para que tanto profesionales del sector tecnológ
 > 🏛️ Está previsto que este proyecto se integre en el plan de alfabetización en IA de [**MencIA**](https://github.com/jose-antarias/LandingMencIA), la estrategia de Inteligencia Artificial de la Diputación de Lugo, como recurso formativo interactivo para empleados públicos.
 
 > [!NOTE]
-> **Aviso de precisión:** Esta plataforma es un recurso educativo diseñado para facilitar la comprensión de la normativa. Aunque se esfuerza por ser fiel a las Guías Técnicas de la AESIA, la IA puede cometer errores de interpretación. La información oficial y vinculante se encuentra exclusivamente en los documentos originales publicados por la Agencia.
-
+> **Aviso de precisión:** Esta plataforma es un recurso educativo diseñado para facilitar la comprensión de la normativa. Su estructura y contenido han sido desarrollados mediante metodologías de **Vibe Coding** (IA Generativa), por lo que es posible que existan omisiones o errores de interpretación al trasladar la información técnica de las guías a la lógica de la aplicación. La información oficial y vinculante se encuentra exclusivamente en los documentos originales de la **AESIA**. Si detectas cualquier error, te agradecería que me lo comunicaras para proceder a su subsanación.
 ---
 
 ## ✨ Características

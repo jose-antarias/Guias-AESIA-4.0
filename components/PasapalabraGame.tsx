@@ -23,9 +23,12 @@ export default function PasapalabraGame() {
     const [feedback, setFeedback] = useState<{ type: "correct" | "incorrect", answer?: string } | null>(null);
     const [showHints, setShowHints] = useState(false);
     const [showAllAnswers, setShowAllAnswers] = useState(false);
+    const feedbackRef = useRef<any>(null);
+    const gameStateRef = useRef<string>("intro");
 
     // Timer Ref
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const timeRef = useRef<number>(150);
 
     // Initialize Game
     const startGame = () => {
@@ -34,33 +37,39 @@ export default function PasapalabraGame() {
         setAnswers({});
         setScore(0);
         setCurrentIdx(0);
-        setTimeLeft(150);
+        const initialTime = 150;
+        setTimeLeft(initialTime);
+        timeRef.current = initialTime;
         setGameState("playing");
+        gameStateRef.current = "playing";
         setInput("");
         setFeedback(null);
+        feedbackRef.current = null;
         setShowHints(false);
         setShowAllAnswers(false);
 
         // Start Timer
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
-            setTimeLeft((prev) => {
-                if (prev <= 1) {
+            // Check refs to identify if we should pause
+            if (gameStateRef.current === "playing" && !feedbackRef.current) {
+                timeRef.current -= 1;
+                setTimeLeft(timeRef.current);
+                
+                if (timeRef.current <= 0) {
                     endGame();
-                    return 0;
                 }
-                return prev - 1;
-            });
+            }
         }, 1000);
     };
 
     const endGame = () => {
         if (timerRef.current) clearInterval(timerRef.current);
         setGameState("finished");
+        gameStateRef.current = "finished";
     };
 
     // Derived States
-    // Reduce needs explicit type or generic
     const activeQuestion = questions[currentIdx];
     const letterStatuses = questions.reduce<Record<string, LetterStatus>>((acc, q, idx) => {
         if (idx === currentIdx && gameState === "playing") return { ...acc, [q.letter]: "current" };
@@ -83,7 +92,6 @@ export default function PasapalabraGame() {
     const nextStep = (status: "correct" | "incorrect" | "pasapalabra") => {
         // Update status immediately for current letter
         const currentLetter = questions[currentIdx].letter;
-        // We use functional update to ensure we have latest state if needed, but here we just append
         const newAnswers = { ...answers, [currentLetter]: status };
         setAnswers(newAnswers);
 
@@ -100,10 +108,7 @@ export default function PasapalabraGame() {
             // Check status in *new* answers
             const s = newAnswers[letter];
 
-            // "pasapalabra" means we skipped it before, so it's still pending for next round.
-            // "base" means not visited yet.
-            // "correct"/"incorrect" are done.
-            if (!s || s === "pasapalabra") { // undefined is base
+            if (!s || s === "pasapalabra") { 
                 nextIdx = idx;
                 break;
             }
@@ -117,6 +122,22 @@ export default function PasapalabraGame() {
             endGame();
         }
     };
+
+    // Update refs when state changes
+    useEffect(() => {
+        gameStateRef.current = gameState;
+    }, [gameState]);
+    
+    useEffect(() => {
+        feedbackRef.current = feedback;
+    }, [feedback]);
+
+    // Cleanup interval on unmount
+    useEffect(() => {
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        };
+    }, []);
 
     // Handle Input
     const handleSubmit = (e: React.FormEvent) => {
@@ -134,16 +155,23 @@ export default function PasapalabraGame() {
         // We do basic exact matching since `normalizeAnswer` simplifies string to alphanumeric only
         
         if (normalizedInput === normalizedCorrect) {
-            setFeedback({ type: "correct" });
+            const fb = { type: "correct" as const };
+            setFeedback(fb);
+            feedbackRef.current = fb;
+            
             setTimeout(() => {
                 setFeedback(null);
+                feedbackRef.current = null;
                 setShowHints(false);
                 nextStep("correct");
             }, 1000);
         } else {
-            setFeedback({ type: "incorrect", answer: activeQuestion.answer });
+            const fb = { type: "incorrect" as const, answer: activeQuestion.answer };
+            setFeedback(fb);
+            feedbackRef.current = fb;
             setTimeout(() => {
                 setFeedback(null);
+                feedbackRef.current = null;
                 setShowHints(false);
                 nextStep("incorrect");
             }, 3000);
@@ -154,7 +182,7 @@ export default function PasapalabraGame() {
         <div className="flex flex-col items-center justify-center min-h-[600px] w-full max-w-4xl mx-auto relative p-4">
             
             {gameState !== "intro" && (
-                <div className="absolute top-0 left-0 md:top-4 md:left-4 z-50 mb-4 px-4 w-full md:w-auto">
+                <div className="mb-6 z-50">
                     <button
                         onClick={() => {
                             if (timerRef.current) clearInterval(timerRef.current);
@@ -162,7 +190,7 @@ export default function PasapalabraGame() {
                         }}
                         className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4 mr-1" />
+                        <ArrowLeft className="w-4 h-4 mr-1.5" />
                         Salir del Rosco
                     </button>
                 </div>
@@ -189,143 +217,141 @@ export default function PasapalabraGame() {
             )}
 
             {gameState === "playing" && activeQuestion && (
-                <div className="relative w-full max-w-3xl aspect-square flex items-center justify-center">
-                    {/* The Rosco Circle */}
-                    <div className="absolute inset-0 rounded-full border border-slate-200/60 dark:border-slate-700/30 pointer-events-none" />
+                <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 min-h-[500px]">
+                    
+                    {/* Left Side: Question HUD (On top for mobile) */}
+                    <div className="w-full lg:w-[45%] z-20 order-1 lg:order-1">
+                        <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-8 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-2xl relative">
+                            <div className="flex items-center gap-4 mb-6 w-full justify-between">
+                                <div className="flex flex-col items-center">
+                                    <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Tiempo</span>
+                                    <div className={cn("text-2xl font-mono font-bold flex items-center gap-2", timeLeft < 30 ? "text-red-500 animate-pulse" : "text-slate-800 dark:text-white")}>
+                                        <Clock className="w-5 h-5" /> {timeLeft}s
+                                    </div>
+                                </div>
+                                <div className="flex flex-col items-center">
+                                    <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Aciertos</span>
+                                    <div className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                                        <Trophy className="w-5 h-5" /> {score}
+                                    </div>
+                                </div>
+                            </div>
 
-                    {questions.map((q, i) => {
-                        const total = questions.length;
-                        const angle = (i * (360 / total)) - 90; // -90 to start at top
-                        const radius = 280; // Distance from center (pixels)
-                        // Calculate position
-                        const x = radius * Math.cos((angle * Math.PI) / 180);
-                        const y = radius * Math.sin((angle * Math.PI) / 180);
-
-                        // Determine visual status
-                        let status = answers[q.letter] || "base";
-                        if (i === currentIdx) status = "current";
-
-                        return (
-                            <motion.div
-                                key={q.letter}
-                                className={cn(
-                                    "absolute w-10 h-10 flex items-center justify-center rounded-full text-sm font-bold border-2 transition-all duration-300 shadow-sm dark:shadow-lg",
-                                    status === "base" && "bg-slate-100 border-slate-300 text-slate-600 dark:bg-slate-800 dark:border-slate-600 dark:text-white",
-                                    status === "current" && "bg-blue-600 border-blue-500 text-white dark:bg-blue-500 dark:border-blue-400 scale-125 z-10 shadow-[0_0_15px_rgba(59,130,246,0.5)] dark:shadow-[0_0_15px_#3b82f6]",
-                                    status === "correct" && "bg-emerald-500 border-emerald-400 text-white",
-                                    status === "incorrect" && "bg-red-500 border-red-400 text-white",
-                                    status === "pasapalabra" && "bg-amber-500 border-amber-400 text-white",
+                            <div className="mb-4 space-y-2 relative">
+                                {feedback && (
+                                    <div className={cn(
+                                        "absolute inset-0 z-30 flex flex-col items-center justify-center p-4 rounded-xl text-white font-bold animate-in fade-in zoom-in duration-300",
+                                        feedback.type === "correct" ? "bg-emerald-500 shadow-[0_0_20px_#10b981]" : "bg-red-500 shadow-[0_0_20px_#ef4444]"
+                                    )}>
+                                        {feedback.type === "correct" ? (
+                                            <><CheckCircle2 className="w-12 h-12 mb-2" /><span className="text-xl uppercase tracking-widest">¡Correcto!</span></>
+                                        ) : (
+                                            <><XCircle className="w-12 h-12 mb-2" /><span className="text-xl uppercase tracking-widest mb-1">¡Incorrecto!</span><span className="text-sm font-medium opacity-90">Era: {feedback.answer}</span></>
+                                        )}
+                                    </div>
                                 )}
-                                style={{
-                                    left: "50%",
-                                    top: "50%",
-                                    x,
-                                    y,
-                                }}
-                            >
-                                {q.letter}
-                            </motion.div>
-                        );
-                    })}
 
-                    {/* Center HUD */}
-                    <div className="z-20 flex flex-col items-center justify-center text-center max-w-md bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-8 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-2xl relative">
-                        <div className="flex items-center gap-4 mb-6 w-full justify-between">
-                            <div className="flex flex-col items-center">
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Tiempo</span>
-                                <div className={cn("text-2xl font-mono font-bold flex items-center gap-2", timeLeft < 30 ? "text-red-500 animate-pulse" : "text-slate-800 dark:text-white")}>
-                                    <Clock className="w-5 h-5" /> {timeLeft}s
+                                <div className={cn("inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider transition-opacity", feedback && "opacity-0")}>
+                                    {activeQuestion.type === "Empieza por" ? "Empieza por" : "Contiene la"}
+                                    <span className="text-blue-600 dark:text-blue-400 font-black text-sm">{activeQuestion.letter}</span>
+                                </div>
+                                <div className={cn("min-h-[120px] flex items-center justify-center transition-opacity", feedback && "opacity-0")}>
+                                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white leading-relaxed text-center lg:text-left">
+                                        {activeQuestion.question}
+                                    </h2>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-center">
-                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Aciertos</span>
-                                <div className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                                    <Trophy className="w-5 h-5" /> {score}
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="mb-4 space-y-2 relative">
-                            {feedback && (
-                                <div className={cn(
-                                    "absolute inset-0 z-30 flex flex-col items-center justify-center p-4 rounded-xl text-white font-bold animate-in fade-in zoom-in duration-300",
-                                    feedback.type === "correct" ? "bg-emerald-500 shadow-[0_0_20px_#10b981]" : "bg-red-500 shadow-[0_0_20px_#ef4444]"
-                                )}>
-                                    {feedback.type === "correct" ? (
-                                        <><CheckCircle2 className="w-12 h-12 mb-2" /><span className="text-xl uppercase tracking-widest">¡Correcto!</span></>
-                                    ) : (
-                                        <><XCircle className="w-12 h-12 mb-2" /><span className="text-xl uppercase tracking-widest mb-1">¡Incorrecto!</span><span className="text-sm font-medium opacity-90">Era: {feedback.answer}</span></>
+                            <form onSubmit={handleSubmit} className="w-full space-y-4">
+                                <AnimatePresence>
+                                    {showHints && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            className="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-500/30 p-3 rounded-xl text-left text-sm text-indigo-800 dark:text-indigo-200"
+                                        >
+                                            <p className="font-bold mb-1 flex items-center gap-1 text-indigo-600 dark:text-indigo-400"><Lightbulb className="w-4 h-4"/> Pistas disponibles:</p>
+                                            <ul className="list-disc pl-5 space-y-1">
+                                                {getHints().map((hint, idx) => (
+                                                    <li key={idx}>{hint}</li>
+                                                ))}
+                                            </ul>
+                                        </motion.div>
                                     )}
-                                </div>
-                            )}
-
-                            <div className={cn("inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider transition-opacity", feedback && "opacity-0")}>
-                                {activeQuestion.type === "Empieza por" ? "Empieza por" : "Contiene la"}
-                                <span className="text-blue-600 dark:text-blue-400 font-black text-sm">{activeQuestion.letter}</span>
-                            </div>
-                            <div className={cn("min-h-[120px] flex items-center justify-center transition-opacity", feedback && "opacity-0")}>
-                                <h2 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white leading-relaxed">
-                                    {activeQuestion.question}
-                                </h2>
-                            </div>
-                        </div>
-
-                        <form onSubmit={handleSubmit} className="w-full space-y-4">
-                            <AnimatePresence>
-                                {showHints && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: "auto" }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        className="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-500/30 p-3 rounded-xl text-left text-sm text-indigo-800 dark:text-indigo-200"
+                                </AnimatePresence>
+                                
+                                <div className="flex gap-2 relative">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setShowHints(!showHints)}
+                                        className="px-3 rounded-full border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700"
+                                        title="Pistas"
                                     >
-                                        <p className="font-bold mb-1 flex items-center gap-1 text-indigo-600 dark:text-indigo-400"><Lightbulb className="w-4 h-4"/> Pistas disponibles:</p>
-                                        <ul className="list-disc pl-5 space-y-1">
-                                            {getHints().map((hint, idx) => (
-                                                <li key={idx}>{hint}</li>
-                                            ))}
-                                        </ul>
+                                        <Lightbulb className={cn("w-5 h-5", showHints ? "text-amber-500 fill-amber-500" : "text-slate-400")} />
+                                    </Button>
+                                    <Input
+                                        autoFocus={true}
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        placeholder="Escribe tu respuesta..."
+                                        disabled={!!feedback}
+                                        className="flex-1 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white text-center text-lg h-12 rounded-full focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                </div>
+                                <div className="flex flex-wrap gap-2 md:gap-4">
+                                    <Button
+                                        type="button"
+                                        onClick={() => nextStep("pasapalabra")}
+                                        disabled={!!feedback}
+                                        className="flex-1 bg-amber-600 hover:bg-amber-500 text-white rounded-full font-bold uppercase tracking-tight text-xs md:text-sm"
+                                    >
+                                        Pasapalabra
+                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        disabled={!input.trim() || !!feedback}
+                                        className="flex-1 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold uppercase tracking-tight text-xs md:text-sm"
+                                    >
+                                        Enviar <ArrowRight className="w-4 h-4 ml-2" />
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    {/* Right Side: The Rosco Circle (Below for mobile) */}
+                    <div className="w-full lg:w-[50%] flex items-center justify-center order-2 lg:order-2">
+                        <div className="relative w-full aspect-square max-w-[320px] sm:max-w-[400px] lg:max-w-[500px]">
+                            <div className="absolute inset-0 rounded-full border border-slate-200 dark:border-slate-800 pointer-events-none scale-[1.05]" />
+                            {questions.map((q, i) => {
+                                const total = questions.length;
+                                const angle = (i * (360 / total)) - 90;
+                                const radius = 46; // Percentage of the parent container
+                                
+                                return (
+                                    <motion.div
+                                        key={q.letter}
+                                        className={cn(
+                                            "absolute w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-[10px] sm:text-xs font-bold border sm:border-2 transition-all duration-300 shadow-sm",
+                                            (answers[q.letter] || "base") === "base" && "bg-slate-100 border-slate-300 text-slate-600 dark:bg-slate-800 dark:border-slate-600 dark:text-white",
+                                            i === currentIdx && "bg-blue-600 border-blue-500 text-white dark:bg-blue-500 dark:border-blue-400 scale-125 z-10 shadow-[0_0_15px_rgba(59,130,246,0.5)] dark:shadow-[0_0_15px_#3b82f6]",
+                                            answers[q.letter] === "correct" && "bg-emerald-500 border-emerald-400 text-white",
+                                            answers[q.letter] === "incorrect" && "bg-red-500 border-red-400 text-white",
+                                            answers[q.letter] === "pasapalabra" && "bg-amber-500 border-amber-400 text-white",
+                                        )}
+                                        style={{
+                                            left: `${50 + radius * Math.cos((angle * Math.PI) / 180)}%`,
+                                            top: `${50 + radius * Math.sin((angle * Math.PI) / 180)}%`,
+                                            transform: "translate(-50%, -50%)",
+                                        }}
+                                    >
+                                        {q.letter}
                                     </motion.div>
-                                )}
-                            </AnimatePresence>
-                            
-                            <div className="flex gap-2 relative">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => setShowHints(!showHints)}
-                                    className="px-3 rounded-full border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700"
-                                    title="Pistas"
-                                >
-                                    <Lightbulb className={cn("w-5 h-5", showHints ? "text-amber-500 fill-amber-500" : "text-slate-400")} />
-                                </Button>
-                                <Input
-                                    autoFocus={true}
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Escribe tu respuesta..."
-                                    disabled={!!feedback}
-                                    className="flex-1 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-600 text-slate-900 dark:text-white text-center text-lg h-12 rounded-full focus:ring-blue-500 focus:border-blue-500"
-                                />
-                            </div>
-                            <div className="flex gap-4">
-                                <Button
-                                    type="button"
-                                    onClick={() => nextStep("pasapalabra")}
-                                    disabled={!!feedback}
-                                    className="flex-1 bg-amber-600 hover:bg-amber-500 text-white rounded-full font-bold uppercase tracking-wide"
-                                >
-                                    Pasapalabra
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    disabled={!input.trim() || !!feedback}
-                                    className="flex-1 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold uppercase tracking-wide"
-                                >
-                                    Enviar <ArrowRight className="w-4 h-4 ml-2" />
-                                </Button>
-                            </div>
-                        </form>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             )}
