@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, Shield, Lock, Unlock, AlertTriangle, Play, BrainCircuit, Terminal, CheckCircle2, XCircle } from "lucide-react";
+import { Clock, Shield, Lock, Unlock, AlertTriangle, Play, BrainCircuit, Terminal, CheckCircle2, XCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -81,8 +81,62 @@ export default function EscapeRoomGame() {
         return `${m}:${s.toString().padStart(2, '0')}`;
     };
 
+    const colors = (() => {
+        switch(selectedLevelId) {
+            case "medium": return {
+                gradient: "via-amber-400 dark:via-amber-500",
+                text: "text-amber-600 dark:text-amber-400",
+                border: "border-amber-400/50 dark:border-amber-500/50",
+                bgLight: "bg-amber-50/50 dark:bg-amber-900/10",
+                icon: "text-amber-600 dark:text-amber-500",
+                button: "bg-amber-600 hover:bg-amber-700 dark:hover:bg-amber-500 text-white shadow-[0_4px_14px_0_rgb(217,119,6,0.39)] dark:shadow-[0_0_20px_rgba(217,119,6,0.3)] hover:shadow-[0_6px_20px_rgba(217,119,6,0.23)] dark:hover:shadow-[0_0_30px_rgba(217,119,6,0.5)]",
+                progressBg: "bg-amber-500",
+                borderActive: "hover:border-amber-500 dark:hover:border-amber-500",
+                groupHoverBg: "group-hover:bg-amber-500 group-hover:border-amber-500"
+            };
+            case "hard": return {
+                gradient: "via-red-400 dark:via-red-500",
+                text: "text-red-600 dark:text-red-400",
+                border: "border-red-400/50 dark:border-red-500/50",
+                bgLight: "bg-red-50/50 dark:bg-red-900/10",
+                icon: "text-red-600 dark:text-red-500",
+                button: "bg-red-600 hover:bg-red-700 dark:hover:bg-red-500 text-white shadow-[0_4px_14px_0_rgb(220,38,38,0.39)] dark:shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_6px_20px_rgba(220,38,38,0.23)] dark:hover:shadow-[0_0_30px_rgba(220,38,38,0.5)]",
+                progressBg: "bg-red-500",
+                borderActive: "hover:border-red-500 dark:hover:border-red-500",
+                groupHoverBg: "group-hover:bg-red-500 group-hover:border-red-500"
+            };
+            case "easy":
+            default: return {
+                gradient: "via-emerald-400 dark:via-emerald-500",
+                text: "text-emerald-600 dark:text-emerald-400",
+                border: "border-emerald-400/50 dark:border-emerald-500/50",
+                bgLight: "bg-emerald-50/50 dark:bg-emerald-900/10",
+                icon: "text-emerald-600 dark:text-emerald-500",
+                button: "bg-emerald-600 hover:bg-emerald-700 dark:hover:bg-emerald-500 text-white shadow-[0_4px_14px_0_rgb(16,185,129,0.39)] dark:shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] dark:hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]",
+                progressBg: "bg-emerald-500",
+                borderActive: "hover:border-emerald-500 dark:hover:border-emerald-500",
+                groupHoverBg: "group-hover:bg-emerald-500 group-hover:border-emerald-500"
+            };
+        }
+    })();
+
     return (
-        <div className="w-full max-w-5xl mx-auto min-h-[600px] flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-5xl mx-auto min-h-[600px] flex flex-col items-center justify-center p-4 relative">
+            
+            {gameState !== "menu" && (
+                <div className="w-full max-w-2xl mx-auto flex justify-center mb-6 z-50 relative">
+                    <button
+                        onClick={() => {
+                            if (timerRef.current) clearInterval(timerRef.current);
+                            setGameState("menu");
+                        }}
+                        className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors bg-white/80 dark:bg-slate-800/80 px-5 py-2 rounded-full border border-slate-200/80 dark:border-slate-700/80 backdrop-blur-xl shadow-sm hover:shadow"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Volver a niveles
+                    </button>
+                </div>
+            )}
 
             {/* MENU SCANNER */}
             {gameState === "menu" && (
@@ -151,21 +205,21 @@ export default function EscapeRoomGame() {
                     animate={{ opacity: 1, scale: 1 }}
                     className="max-w-2xl w-full bg-white/90 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 p-8 md:p-12 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-2xl relative overflow-hidden"
                 >
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-emerald-400 dark:via-emerald-500 to-transparent opacity-50" />
+                    <div className={cn("absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to-transparent opacity-50", colors.gradient)} />
 
                     <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-6 uppercase tracking-wide">
-                        Informe de misión: <span className="text-emerald-600 dark:text-emerald-400">{currentLevel.title}</span>
+                        Informe de misión: <span className={colors.text}>{currentLevel.title}</span>
                     </h2>
 
                     <div className="prose dark:prose-invert max-w-none mb-8">
-                        <p className="text-lg text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-line border-l-4 border-emerald-400/50 dark:border-emerald-500/50 pl-6 py-2 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-r-lg">
+                        <p className={cn("text-lg text-slate-700 dark:text-slate-200 leading-relaxed whitespace-pre-line border-l-4 pl-6 py-2 rounded-r-lg", colors.border, colors.bgLight)}>
                             {currentLevel.storyIntro}
                         </p>
                     </div>
 
                     <div className="flex justify-between items-center text-sm font-mono text-slate-600 dark:text-slate-400 mb-8 bg-slate-100 dark:bg-slate-800/50 p-4 rounded-xl">
                         <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
+                            <Clock className={cn("w-4 h-4", colors.icon)} />
                             <span>Tiempo límite: {formatTime(currentLevel.timeLimit)}</span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -174,7 +228,7 @@ export default function EscapeRoomGame() {
                         </div>
                     </div>
 
-                    <Button onClick={confirmStart} size="lg" className="w-full bg-emerald-600 hover:bg-emerald-700 dark:hover:bg-emerald-500 text-white font-bold h-14 text-lg rounded-xl shadow-[0_4px_14px_0_rgb(16,185,129,0.39)] dark:shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] dark:hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all">
+                    <Button onClick={confirmStart} size="lg" className={cn("w-full font-bold h-14 text-lg rounded-xl transition-all", colors.button)}>
                         Iniciar misión <Play className="w-5 h-5 ml-2 fill-current" />
                     </Button>
                 </motion.div>
@@ -188,7 +242,7 @@ export default function EscapeRoomGame() {
                         <div className="bg-white/90 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 backdrop-blur-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none p-6 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
                             <div className={cn(
                                 "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-500",
-                                timeLeft < 60 ? "bg-red-500 animate-pulse" : "bg-emerald-500"
+                                timeLeft < 60 ? "bg-red-500 animate-pulse" : colors.progressBg
                             )} />
                             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-widest">Tiempo restante</span>
                             <div className={cn(
@@ -202,13 +256,13 @@ export default function EscapeRoomGame() {
                         <div className="bg-white/80 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none rounded-2xl">
                             <div className="flex justify-between items-center mb-4">
                                 <span className="text-xs font-bold text-slate-600 dark:text-slate-500 uppercase">Progreso de la misión</span>
-                                <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">{currentStageIndex + 1} / {currentLevel.stages.length}</span>
+                                <span className={cn("text-xs font-mono", colors.text)}>{currentStageIndex + 1} / {currentLevel.stages.length}</span>
                             </div>
                             <div className="w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${((currentStageIndex) / currentLevel.stages.length) * 100}%` }}
-                                    className="h-full bg-emerald-500"
+                                    className={cn("h-full", colors.progressBg)}
                                 />
                             </div>
                         </div>
@@ -254,7 +308,7 @@ export default function EscapeRoomGame() {
                                 )}
 
                                 <div className="mb-6">
-                                    <div className="text-emerald-600 dark:text-emerald-500 font-mono text-xs mb-2">LOG: ENTRY_{currentStage.id.toUpperCase()}</div>
+                                    <div className={cn("font-mono text-xs mb-2", colors.text)}>LOG: ENTRY_{currentStage.id.toUpperCase()}</div>
                                     <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 mb-4 font-mono leading-relaxed border-l-2 border-slate-300 dark:border-slate-700 pl-4 py-1">
                                         "{currentStage.storySegment}"
                                     </h3>
@@ -268,10 +322,10 @@ export default function EscapeRoomGame() {
                                                     key={idx}
                                                     onClick={() => handleAnswer(idx)}
                                                     disabled={feedback !== "none"}
-                                                    className="w-full p-4 text-left rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-slate-50 dark:hover:bg-slate-750 transition-all text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-sm md:text-base group flex items-center justify-between shadow-sm"
+                                                    className={cn("w-full p-4 text-left rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 transition-all text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-sm md:text-base group flex items-center justify-between shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700", colors.borderActive)}
                                                 >
                                                     <span>{opt}</span>
-                                                    <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 group-hover:bg-emerald-500 group-hover:border-emerald-500 transition-colors" />
+                                                    <div className={cn("w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 transition-colors", colors.groupHoverBg)} />
                                                 </button>
                                             ))}
                                         </div>

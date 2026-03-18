@@ -68,27 +68,13 @@ export function Navbar() {
 
                 {/* ── CENTER: Desktop nav pill (md+) ── */}
                 <div className="hidden md:flex flex-1 justify-center items-center overflow-hidden">
-                    <Link
-                        href="/"
-                        aria-label={t.navbar.home}
-                        className={cn(
-                            "pointer-events-auto flex items-center justify-center px-4 h-9 rounded-full border backdrop-blur-xl shadow-sm transition-colors font-medium text-sm",
-                            isHome
-                                ? "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white ring-1 ring-slate-200 dark:ring-slate-700"
-                                : "bg-white/80 dark:bg-slate-900/80 border-slate-200/60 dark:border-slate-700/50 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800"
-                        )}
-                    >
-                        <Home className="w-4 h-4 shrink-0" />
-                        <span className="ml-2">{t.navbar.home}</span>
-                    </Link>
                 </div>
 
-                {/* ── RIGHT: Theme · Language · Home (mobile) ── */}
+                {/* ── RIGHT: Theme · Language (mobile) ── */}
                 {/*
                     Order rationale (left → right):
                     1. ThemeToggle  — least-used utility, leftmost
                     2. LanguageSwitcher — content preference, middle
-                    3. Home button  — primary navigation, rightmost & thumb-friendly on mobile
                 */}
                 <div className="flex shrink-0 items-center gap-1.5">
                     {/* Theme toggle — always visible */}
@@ -100,15 +86,6 @@ export function Navbar() {
                     <div className="pointer-events-auto">
                         <LanguageSwitcher />
                     </div>
-
-                    {/* Home icon-button — MOBILE ONLY (hidden on md+) */}
-                    <Link
-                        href="/"
-                        aria-label={t.navbar.home}
-                        className="md:hidden shrink-0 flex items-center justify-center w-9 h-9 rounded-full border backdrop-blur-xl shadow-sm transition-colors bg-white/90 dark:bg-slate-800/90 border-slate-200/80 dark:border-slate-700/60 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white pointer-events-auto"
-                    >
-                        <Home className="w-4 h-4" />
-                    </Link>
                 </div>
 
             </div>

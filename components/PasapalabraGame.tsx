@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, RotateCcw, Play, Clock, CheckCircle2, XCircle, AlertTriangle, Trophy, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, RotateCcw, Play, Clock, CheckCircle2, XCircle, AlertTriangle, Trophy, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -152,6 +152,22 @@ export default function PasapalabraGame() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[600px] w-full max-w-4xl mx-auto relative p-4">
+            
+            {gameState !== "intro" && (
+                <div className="absolute top-0 left-0 md:top-4 md:left-4 z-50 mb-4 px-4 w-full md:w-auto">
+                    <button
+                        onClick={() => {
+                            if (timerRef.current) clearInterval(timerRef.current);
+                            setGameState("intro");
+                        }}
+                        className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-1" />
+                        Salir del Rosco
+                    </button>
+                </div>
+            )}
+
             {gameState === "intro" && (
                 <div className="text-center space-y-8 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md p-12 rounded-3xl border border-blue-100 dark:border-indigo-500/30 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-2xl">
                     <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate-pulse">

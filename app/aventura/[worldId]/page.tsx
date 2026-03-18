@@ -28,15 +28,19 @@ export default function WorldPage({ params }: { params: Promise<{ worldId: strin
 
             <div className="container mx-auto px-4 relative z-10 max-w-5xl">
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-8">
-                    <Link href="/aventura" className="p-2 rounded-full bg-slate-200/50 dark:bg-white/5 hover:bg-slate-300/50 dark:hover:bg-white/10 transition-colors">
-                        <ArrowLeft className="w-6 h-6 text-slate-600 dark:text-slate-300" />
+                <div className="flex items-center gap-4 mb-4">
+                    <Link
+                        href="/aventura"
+                        className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-1" />
+                        Volver al mapa
                     </Link>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
-                        <span className="text-4xl">{world.icon}</span>
-                        {world.name}
-                    </h1>
                 </div>
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+                    <span className="text-4xl">{world.icon}</span>
+                    {world.name}
+                </h1>
 
                 <p className="text-slate-600 dark:text-slate-400 text-lg mb-12 max-w-2xl leading-relaxed">
                     {world.description}

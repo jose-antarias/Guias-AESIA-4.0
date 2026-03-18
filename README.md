@@ -9,15 +9,17 @@
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-EE4B96?style=for-the-badge&logo=framer)
 ![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-orange?style=for-the-badge)
 
+<img src="./thumbnail.png" alt="Guías AESIA 4.0 Thumbnail" width="100%" />
+
 **Plataforma educativa interactiva para el estudio de las Guías Técnicas de la AESIA (Agencia Española de Supervisión de la Inteligencia Artificial)**
 
-🌐 [**Acceder a la aplicación**](https://guiasaesia.vercel.app/) · [🚀 Características](#-características) · [🏗️ Arquitectura](#️-arquitectura) · [🎮 Módulos de Juego](#-módulos-de-juego-interactivo) · [🌍 Idiomas](#-soporte-multiidioma) · [⚡ Instalación](#-instalación-y-puesta-en-marcha)
+🌐 [**Acceder a la aplicación**](https://guiasaesia.vercel.app/) · [🚀 Características](#-características) · [🏗️ Arquitectura](#️-arquitectura) · [🎮 Módulos de juego interactivo](#-módulos-de-juego-interactivo) · [🌍 Soporte multiidioma](#-soporte-multiidioma) · [⚡ Instalación y puesta en marcha](#-instalación-y-puesta-en-marcha)
 
 </div>
 
 ---
 
-> ⚠️ **Proyecto en desarrollo activo.** La aplicación es funcional y pública, pero continúa evolucionando. Consulta la [hoja de ruta](#️-hoja-de-ruta) para ver el estado actual de cada módulo.
+> **Nota:** Este proyecto demuestra la viabilidad de crear plataformas educativas de alta complejidad técnica y visual (Next.js 16 + React 19) utilizando exclusivamente metodologías de **Vibe Coding** (Inteligencia Artificial Generativa), acelerando radicalmente el ciclo de desarrollo desde la idea al despliegue.
 
 ---
 
@@ -28,17 +30,21 @@
 La aplicación está diseñada para que tanto profesionales del sector tecnológico como ciudadanos interesados puedan comprender de forma rápida y entretenida los principios, requisitos y obligaciones del **Reglamento Europeo de Inteligencia Artificial (AI Act)** y las guías técnicas que lo desarrollan.
 
 > 🏛️ Está previsto que este proyecto se integre en el plan de alfabetización en IA de [**MencIA**](https://github.com/jose-antarias/LandingMencIA), la estrategia de Inteligencia Artificial de la Diputación de Lugo, como recurso formativo interactivo para empleados públicos.
+
+> [!NOTE]
+> **Aviso de precisión:** Esta plataforma es un recurso educativo diseñado para facilitar la comprensión de la normativa. Aunque se esfuerza por ser fiel a las Guías Técnicas de la AESIA, la IA puede cometer errores de interpretación. La información oficial y vinculante se encuentra exclusivamente en los documentos originales publicados por la Agencia.
+
 ---
 
 ## ✨ Características
 
 - 🎨 **Diseño premium UI/UX** — Interfaz adaptativa (Claro/Oscuro) con menús scroll-aware, glassmorphism y micro-animaciones fluidas
-- 📖 **16 Guías Técnicas completas** — Cobertura total de los documentos oficiales de la AESIA
+- 📖 **16 guías técnicas completas** — Cobertura total de los documentos oficiales de la AESIA
 - 🃏 **Flashcards interactivas** — Sistema de tarjetas de memoria para repasar conceptos clave
 - 🧠 **Quiz interactivo** — Cuestionarios de opción múltiple con retroalimentación inmediata
 - 📘 **Glosario visual** — Definición de términos técnicos con navegación sencilla
-- 🎮 **Juegos Educativos** — Módulos de gamificación: Escape Room, Rosco RIA (Pasapalabra) y Aventura
-- 📊 **Zona de Entrenamiento** — Panel gamificado con seguimiento de progreso
+- 🎮 **Juegos educativos** — Módulos de gamificación: Escape Room, Rosco RIA (Pasapalabra) e IA Aventura
+- 📊 **Zona de entrenamiento** — Panel gamificado con seguimiento de progreso
 - 🌍 **Multiidioma** — Español completo; Inglés, Gallego, Euskera y Catalán en desarrollo
 - 📱 **Totalmente responsive** — Experiencia óptima y navegación adaptada en escritorio, tablet y móvil
 
@@ -84,11 +90,11 @@ aesia-course/
 │
 ├── lib/                        # Lógica de negocio y datos
 │   ├── data/
-│   │   ├── es.ts               # Datos completos de las guías en Español
-│   │   ├── en.ts               # Datos en Inglés (en desarrollo)
-│   │   ├── gl.ts               # Datos en Gallego
-│   │   ├── eu.ts               # Datos en Euskera
-│   │   ├── ca.ts               # Datos en Catalán
+│   │   ├── es.ts               # Datos completos de las guías en español
+│   │   ├── en.ts               # Datos en inglés (en desarrollo)
+│   │   ├── gl.ts               # Datos en gallego
+│   │   ├── eu.ts               # Datos en euskera
+│   │   ├── ca.ts               # Datos en catalán
 │   │   └── index.ts            # Exportaciones y función getGuides()
 │   ├── i18n/                   # Traducciones de la interfaz de usuario
 │   ├── aventuraData.ts         # Datos del juego de aventura
@@ -137,7 +143,7 @@ La aplicación cubre las **16 guías prácticas** publicadas por la AESIA para e
 
 ---
 
-## 🎮 Módulos de Juego interactivo
+## 🎮 Módulos de juego interactivo
 
 ### 🃏 Flashcards
 Sistema de tarjetas de doble cara (pregunta/respuesta) para memorizar conceptos clave de cada guía. Con animación de giro y seguimiento de respuestas correctas.
@@ -154,8 +160,8 @@ Juego temático de resolución de puzzles ambientado en el mundo de la conformid
 ### 🔤 Rosco RIA (Pasapalabra)
 Clásico juego de letras adaptado con terminología del Reglamento europeo de IA. Pon a prueba tu vocabulario regulatorio de forma divertida con sistema de pistas integrado.
 
-### 🗺️ Aventura de Texto
-Juego de rol narrativo donde el jugador toma decisiones en escenarios hipotéticos de deploying de sistemas IA y debe elegir las respuestas conformes al reglamento.
+### 🗺️ IA Aventura (Aventura de texto)
+Juego de rol narrativo donde el jugador toma decisiones en escenarios hipotéticos de despliegue de sistemas de IA y debe elegir las respuestas conformes al reglamento.
 
 ---
 
@@ -164,58 +170,22 @@ Juego de rol narrativo donde el jugador toma decisiones en escenarios hipotétic
 | Idioma | Código | Estado |
 |--------|--------|--------|
 | 🇪🇸 Español | `es` | ✅ Completo |
-| 🇬🇧 Inglés | `en` | 🔜 En desarrollo — traducción oficial AESIA publicada en 2026 |
+| 🇬🇧 Inglés | `en` | 🔜 En desarrollo |
 | 🏴󠁧󠁢󠁥󠁮󠁧󠁿 Gallego | `gl` | ⚙️ En progreso |
 | 🌿 Euskera | `eu` | ⚙️ En progreso |
 | 🔴 Catalán | `ca` | ⚙️ En progreso |
 
 ---
 
-## 🗺️ Hoja de ruta
+## 🤖 Desarrollo asistido por IA (Vibe Coding)
 
-| Estado | Módulo | Detalle |
-|:---:|---|---|
-| ✅ | Contenido de las 16 guías en español | Carga de contenido completa |
-| ✅ | Interfaz Adaptativa (Claro/Oscuro) | Rediseño UX y adaptación visual completados en toda la plataforma |
-| ✅ | Juego: Rosco RIA | Motor de validación de respuestas (ignora mayúsculas/tildes) y sistema de pistas operativos |
-| ✅ | Juego: Aventura de Texto | Sistema de misiones y persistencia de datos ("El Nexo", etc.) corregido |
-| 🔜 | Inglés | Pendiente de integrar la traducción oficial publicada por la AESIA |
-| 🔜 | Gallego, Euskera y Catalán | Traducción e integración en progreso |
-| 🔧 | Zona Gamificación y Retos | Pendiente de pulir dinámicas en submódulos restantes y balanceo general |
+Este ecosistema ha sido desarrollado íntegramente mediante **AI-Driven Development**, orquestando modelos avanzados de lenguaje (LLMs) para la arquitectura, lógica y diseño. El flujo de trabajo ha incluido:
 
----
-
-## ⚡ Instalación y puesta en marcha
-
-### Prerrequisitos
-- **Node.js** `>= 18.x`
-- **npm** `>= 9.x` (o pnpm / yarn)
-
-### Pasos
-
-```bash
-# 1. Clona el repositorio
-git clone https://github.com/TU_USUARIO/GuiasAesia.git
-cd GuiasAesia
-
-# 2. Instala las dependencias
-npm install
-
-# 3. Inicia el servidor de desarrollo
-npm run dev
-```
-
-La aplicación estará disponible en **[http://localhost:3000](http://localhost:3000)**
-
-### Construcción para producción
-
-```bash
-# Genera el build optimizado de producción
-npm run build
-
-# Inicia el servidor de producción
-npm start
-```
+1.  **Arquitectura Next.js 16 (App Router):** Diseño de una estructura escalable para albergar 16 guías técnicas y múltiples módulos de juego en una aplicación de página única (SPA).
+2.  **Ingeniería de datos interactiva:** Transformación de las Guías Técnicas de la AESIA en estructuras de datos JSON tipadas con TypeScript para alimentar los motores de Quiz, Flashcards y Glosario.
+3.  **UI/UX Premium con Tailwind & Framer Motion:** Creación de una interfaz fluida con soporte nativo para temas claro/oscuro, micro-animaciones y diseño adaptativo.
+4.  **Lógica de gamificación:** Desarrollo de los motores lógicos para el *Escape Room*, el *Rosco RIA* y la *Aventura de Texto*, incluyendo validación de respuestas y persistencia de estado.
+5.  **Debugging y optimización:** Resolución iterativa de conflictos de hidratación en React 19 y optimización de componentes 3D (Three.js) mediante agentes de IA.
 
 ---
 
@@ -231,6 +201,44 @@ npm start
 | **Three.js / R3F** | 0.182 | Escenas 3D en el HeroScene |
 | **Lucide React** | 0.563 | Iconografía moderna |
 | **Radix UI** | 1.2 | Componentes accesibles sin estilo |
+
+---
+
+## 🗺️ Hoja de ruta
+
+| Estado | Módulo | Detalle |
+|:---:|---|---|
+| ✅ | Contenido de las 16 guías en español | Carga de contenido completa |
+| ✅ | Interfaz adaptativa (Claro/Oscuro) | Rediseño UX y adaptación visual completados en toda la plataforma |
+| ✅ | Juego: Rosco RIA | Motor de validación de respuestas (ignora mayúsculas/tildes) y sistema de pistas operativos |
+| ✅ | Juego: IA Aventura | Sistema de misiones y persistencia de datos ("El Nexo", etc.) corregido |
+| 🔜 | Inglés | Pendiente de integrar la traducción oficial |
+| 🔜 | Gallego, Euskera y Catalán | Traducción e integración en progreso |
+| 🔧 | Zona de gamificación y retos | Pendiente de pulir dinámicas en submódulos restantes y balanceo general |
+
+---
+
+## ⚡ Instalación y puesta en marcha
+
+### Prerrequisitos
+- **Node.js** `>= 18.x`
+- **npm** `>= 9.x`
+
+### Pasos
+
+```bash
+# 1. Clona el repositorio
+git clone https://github.com/jose-antarias/Guias-AESIA-4.0.git
+cd Guias-AESIA-4.0
+
+# 2. Instala las dependencias
+npm install
+
+# 3. Inicia el servidor de desarrollo
+npm run dev
+```
+
+La aplicación estará disponible en **[http://localhost:3000](http://localhost:3000)**
 
 ---
 

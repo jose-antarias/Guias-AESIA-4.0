@@ -17,6 +17,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 // Script inline para evitar flash (se ejecuta antes del primer render)
 const themeInitScript = `
@@ -50,6 +51,7 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Footer />
+            <ScrollToTop />
           </LanguageProvider>
         </ThemeProvider>
       </body>

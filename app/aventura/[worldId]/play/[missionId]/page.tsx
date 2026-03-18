@@ -78,11 +78,11 @@ function GameEngine({ guide, world, missionId }: { guide: Guide, world: any, mis
             {/* HUD */}
             <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 border-b border-indigo-200 dark:border-indigo-500/30 backdrop-blur-md p-4 flex justify-between items-center shadow-sm dark:shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-colors">
                 <div className="flex items-center gap-4">
-                    <Link href={`/aventura/${world.id}`} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">
+                    <Link href={`/aventura/${world.id}`} className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors mr-2">
                         <ArrowLeft className="w-5 h-5" />
                     </Link>
                     <div className="flex flex-col">
-                        <span className="text-xs text-indigo-600 dark:text-indigo-400 uppercase tracking-widest font-bold">Misión activa</span>
+                        <Link href={`/aventura/${world.id}`} className="text-xs text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 uppercase tracking-widest font-bold transition-colors">Volver a misiones</Link>
                         <span className="text-sm font-bold text-slate-800 dark:text-white max-w-[150px] md:max-w-xs truncate transition-colors">{guide.title}</span>
                     </div>
                 </div>

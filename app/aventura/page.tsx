@@ -4,7 +4,7 @@ import Link from "next/link";
 import { worlds } from "@/lib/aventuraData";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Lock, Play, Star, Trophy, Medal, Award } from "lucide-react";
+import { Lock, Play, Star, Trophy, Medal, Award, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { getStoredProgress, getStoredAchievements, ACHIEVEMENTS, type MissionProgress } from "@/lib/aventuraStorage";
@@ -33,6 +33,15 @@ export default function AventuraPage() {
 
             <div className="container mx-auto px-4 relative z-10 max-w-7xl">
                 <header className="mb-12 text-center">
+                    <div className="flex items-start justify-start mb-8">
+                        <Link
+                            href="/#gamificacion"
+                            className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+                        >
+                            <ArrowLeft className="w-4 h-4 mr-1" />
+                            Volver al inicio
+                        </Link>
+                    </div>
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
